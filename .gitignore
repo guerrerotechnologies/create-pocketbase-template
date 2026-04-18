@@ -1,0 +1,23 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries and coverage
+*.test
+*.out
+coverage.out
+
+# PocketBase runtime data
+pb_data/
+
+# Build output
+bin/
+dist/
+
+# Editor / OS files
+.DS_Store
+.idea/
+.vscode/
