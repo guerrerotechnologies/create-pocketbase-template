@@ -1,12 +1,19 @@
 package main
 
 import (
-		"log"
-
-		_ "your/module/path/migrations"
+	        "log"
 
 		"github.com/pocketbase/pocketbase"
 		"github.com/pocketbase/pocketbase/plugins/migratecmd"
+
+		// Run this before adding migrations import below.
+		// Also make sure app is not running while running this.
+		// go run . migrate collections
+		
+		// Enable this once you have at least one migration
+	    	// _ "yourpackage/migrations"
+		// Example:                                                     
+		// _ "github.com/guerrerotechnologies/create-pocketbase/migrations"
 )
 
 func main() {
