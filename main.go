@@ -11,7 +11,7 @@ import (
 		// go run . migrate collections
 		
 		// Enable this once you have at least one migration
-	    	// _ "yourpackage/migrations"
+		// _ "yourpackage/migrations"
 		// Example:                                                     
 		// _ "github.com/guerrerotechnologies/create-pocketbase/migrations"
 )
