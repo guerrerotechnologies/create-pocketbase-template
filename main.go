@@ -1,29 +1,22 @@
 package main
 
 import (
-		"log"
+	"log"
 
-		"github.com/pocketbase/pocketbase"
-		"github.com/pocketbase/pocketbase/plugins/migratecmd"
-
-		// Run this before adding migrations import below.
-		// Also make sure app is not running while running this.
-		// go run . migrate collections
-		
-		// Enable this once you have at least one migration
-		// _ "yourpackage/migrations"
-		// Example:                                                     
-		// _ "github.com/guerrerotechnologies/create-pocketbase/migrations"
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+	// Enable this import only AFTER your first migration file exists.
+	// _ "github.com/<your-username>/<your-repo>/migrations"
 )
 
 func main() {
 	app := pocketbase.New()
 
-		migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
+	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		Automigrate: false,
 	})
 
-		if err := app.Start(); err != nil {
+	if err := app.Start(); err != nil {
 		log.Fatal(err)
 	}
 }
