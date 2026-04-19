@@ -1,119 +1,132 @@
 # create-pocketbase-template
 
-A minimal GitHub template repository for starting a **Go + PocketBase** backend with Go-powered migrations wired from day one.
+Minimal GitHub template for a fresh **Go + PocketBase** backend using PocketBase's official migration workflow.
 
-This template is intentionally manual and simple. You create a new repository from this template, initialize your Go module, update one import placeholder, and run the documented commands.
+## Purpose
 
-## What this template includes
+Use this repo as a clean manual starting point:
+- create a new repository from this template
+- set your module/import placeholders
+- run PocketBase
+- generate migrations after schema changes
 
-- `main.go` – PocketBase app entrypoint with migration command registration.
-- `migrations/migrations.go` – placeholder package so migrations are importable before your first snapshot.
-- `.gitignore` – practical defaults for Go + PocketBase projects.
+This template is intentionally minimal and does **not** include automation logic.
 
-## Why there is no `go.mod` in this template
+## What is included
 
-`go.mod` is intentionally **not** committed here.
+- `main.go` (PocketBase app + migration command registration)
+- `go.mod` / `go.sum` (starter dependencies; update module path)
+- `.gitignore`
+- `README.md`
 
-After you generate your own repository from this template, you should create a module with your real repository path:
+## Important migration rule
 
-```bash
-go mod init github.com/<your-username>/<your-new-repo>
+In `main.go`, the migrations import stays commented at first:
+
+```go
+// _ "github.com/<your-username>/<your-repo>/migrations"
 ```
 
-This avoids committing a fake module path in the template and keeps setup explicit.
+Do **not** uncomment it until your first migration file exists.
 
-## Requirements
+## Setup
 
-Install these before using the template:
+### 1) Create a new repository from this template
 
-- **Go** (recommended current stable)
-- **Git**
-- A **GitHub account**
-
-Optional but useful:
-
-- **GitHub CLI (`gh`)** for faster repo workflows
-
-## 1) Create a new repo from this template
-
-1. Open this template repository on GitHub.
+1. Open this repository on GitHub.
 2. Click **Use this template**.
-3. Create your new repository (for example: `my-pocketbase-api`).
+3. Create your new repository.
 
-## 2) Clone your new repository
-
-```bash
-git clone https://github.com/<your-username>/<your-new-repo>.git
-cd <your-new-repo>
-```
-
-## 3) Initialize the Go module
-
-Run:
+### 2) Clone your new repository
 
 ```bash
-go mod init github.com/<your-username>/<your-new-repo>
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
 ```
 
-Example:
+### 3) Update required placeholders
 
-```bash
-go mod init github.com/acme/my-pocketbase-api
-```
+#### Update module path in `go.mod`
 
-## 4) Update required placeholder in `main.go`
-
-Current placeholder import:
+Replace:
 
 ```go
-_ "your/module/path/migrations"
+module github.com/guerrerotechnologies/create-pocketbase-template
 ```
 
-Replace it with your actual module path + `/migrations`, for example:
+with your real module path, for example:
 
 ```go
-_ "github.com/acme/my-pocketbase-api/migrations"
+module github.com/acme/my-pocketbase-api
 ```
 
-## 5) Install dependencies
+#### Update migrations import path in `main.go`
 
-After module init and import update:
+Keep it commented initially, but set the correct path:
+
+```go
+// _ "github.com/acme/my-pocketbase-api/migrations"
+```
+
+## Run commands
+
+### Install/update deps
 
 ```bash
 go mod tidy
 ```
 
-## 6) Run the app
+### Run app
 
 ```bash
 go run . serve
 ```
 
-PocketBase default local UI URL is typically `http://127.0.0.1:8090/_/`.
+PocketBase admin UI is typically at `http://127.0.0.1:8090/_/`.
 
-## 7) Create the initial PocketBase superuser
+### Create first superuser
 
-With the app running, open the admin UI in your browser and follow the first-time superuser creation flow.
+With the app running, open the admin UI and complete the first-time superuser flow.
 
-## 8) Create your first migration snapshot
+## Official migration workflow
 
-After collections are created/edited in the admin UI:
+1. Run the app:
+
+```bash
+go run . serve
+```
+
+2. Create/edit collections in the PocketBase dashboard.
+3. Stop the app.
+4. Create the migrations folder manually:
+
+```bash
+mkdir migrations
+```
+
+5. Generate your first migration snapshot:
 
 ```bash
 go run . migrate collections
 ```
 
-This generates migration files under `migrations/`.
+6. After the first migration file exists, uncomment the migrations import in `main.go`:
 
-## 9) Recommended branch workflow (manual)
+```go
+_ "github.com/<your-username>/<your-repo>/migrations"
+```
 
-After your initial setup on `main`, run:
+7. Run the app again:
 
 ```bash
-git add .
-git commit -m "Initial setup from template"
-git push origin main
+go run . serve
+```
 
+## Branch workflow for new repos
+
+After your initial commit on `main`:
+
+```bash
 git checkout -b test
 git push -u origin test
 
@@ -121,13 +134,11 @@ git checkout -b dev
 git push -u origin dev
 ```
 
-Continue active development on `dev`.
+Continue development on `dev`.
 
 ---
 
-## Notes
+## Scope note
 
-- This repository is the **template** repo (`create-pocketbase-template`).
-- Future automation belongs in a separate repo (`create-pocketbase`).
-- Keep this template focused on clean boilerplate + clear manual instructions.
-
+- This repository: `create-pocketbase-template` (manual template only)
+- Future separate automation repository: `create-pocketbase`
